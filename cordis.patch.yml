@@ -1,0 +1,8 @@
+# The layer a dsh profile applies when it lists miran-fann-dsh.
+#
+# One row owns the whole connection: it resolves the Miran engine, mounts dsh's
+# mcp-client on top of it, serves the Miran settings API the browser half talks
+# to, and registers the skills under ./skills.
+- insert:
+    - id: miran-fann
+      name: miran-fann-dsh
