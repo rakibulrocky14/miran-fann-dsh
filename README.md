@@ -77,7 +77,24 @@ choice, `lean` (about 30 tools, the rest through `runScript`) and `full` (every
 tool in the schema).
 
 Skills ship in `skills/<name>/SKILL.md` and load into dsh's skill registry, so
-`/miran-...` and model-side loading use the same files.
+`/miran-...` and model-side loading use the same files. Start with
+`miran-dsh-studio`; it names the others.
+
+| Skill | Teaches |
+| --- | --- |
+| `miran-dsh-studio` | The order of work, research, the beat sheet, the handoff map |
+| `miran-dsh-directions` | Choosing a visual direction per brief, never a house look |
+| `miran-dsh-reference` | Studying reference videos and turning them into the film's own timing and motion |
+| `miran-dsh-design` | Hierarchy, readable sizes, depth, real UI |
+| `miran-dsh-type` | Setting, revealing and reading type |
+| `miran-dsh-motion` | Eases, timing, holds, the motion library |
+| `miran-dsh-cuts` | Shot length, cutting, transitions |
+| `miran-dsh-camera` | Depth, pushes, 3D screens, rack focus |
+| `miran-dsh-sound` | Music, events, levels, the drop |
+| `miran-dsh-polish` | Finishing, grade, export, captions |
+| `miran-dsh-launch` | The arc of a launch film |
+| `miran-dsh-explainer` | The structure of an explainer |
+| `miran-dsh-social` | 9:16, hooks, captions, loops |
 
 ## Configuration
 

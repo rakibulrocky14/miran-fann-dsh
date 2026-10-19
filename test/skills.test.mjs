@@ -83,3 +83,30 @@ test('registerSkills hands each skill to ctx.skills.register through an effect',
 test('registerSkills is quiet when the composition has no skill registry', async () => {
   assert.deepEqual(await registerSkills({}, fixtures, { info() {}, warn() {} }), [])
 })
+
+// Built from pieces so this file does not trip the staging script's own scan.
+const personalData = new RegExp(['/Us' + 'ers/', '@gm' + 'ail', 'mdr' + 'ir'].join('|'))
+
+test('the bundled miran-dsh skills all load, and miran-dsh-reference is among them', async () => {
+  const skills = await loadSkills(join(here, '..', 'skills'))
+  const names = skills.map((skill) => skill.name)
+  assert.ok(names.includes('miran-dsh-reference'), `skills found: ${names.join(', ')}`)
+  for (const skill of skills) {
+    assert.match(skill.name, /^miran-dsh-[a-z]+$/, skill.path)
+    assert.ok(skill.description.length <= 500, `${skill.name} description is over dsh's 500-character catalog limit`)
+    assert.ok(skill.content.length > 500, `${skill.name} has no real body`)
+    assert.doesNotMatch(skill.content, personalData, `${skill.name} carries personal data`)
+  }
+})
+
+test('miran-dsh-reference calls only real reference actions and params', async () => {
+  const [skill] = (await loadSkills(join(here, '..', 'skills'))).filter((s) => s.name === 'miran-dsh-reference')
+  const actions = new Set(['add', 'list', 'sheets', 'frame', 'note', 'release', 'remove', 'guide', 'analyze', 'compare', 'recipe'])
+  const params = new Set(['action', 'source', 'video', 'title', 'mode', 'start', 'end', 'interval', 'page', 'pages', 'text', 'against', 'composition', 'id', 'opacity', 'remove', 'out', 'layout', 'read_text'])
+  const calls = [...skill.content.matchAll(/^reference (\{.*\})$/gm)].map((m) => JSON.parse(m[1]))
+  assert.ok(calls.length >= 10, 'the skill shows its reference calls')
+  for (const call of calls) {
+    assert.ok(actions.has(call.action), `unknown action ${call.action}`)
+    for (const key of Object.keys(call)) assert.ok(params.has(key), `unknown param ${key} in ${JSON.stringify(call)}`)
+  }
+})
