@@ -15,6 +15,25 @@ Tools: `addMusic` (a composed bed), `addSound` / `kit.sfx` (events), `mixAudio`
 (the mix), `setCompositionField {loudness_target}` (the master). The reference
 for every preset is `guide {topic:"sound"}`.
 
+## Recordings, when synthesis is not the sound
+
+The generated presets are clean and land on the frame. A real whoosh, click,
+riser or room tone often carries more texture, and 352 CC0 recordings ship as
+an index:
+
+```
+sounds {query: "whoosh", max_seconds: 1}
+sounds {category: "riser", min_seconds: 2}
+sounds {id: "anve/whoosh/snd-whoosh-swish-s", place: true}   // a direct call
+```
+
+`place: true` caches it under `~/.miran/cache/sounds`, copies it to `sounds/`
+and imports it as an audio asset (place it with a direct call: a script reads
+the cache but does not download); then `createLayer {kind:"audio"}` and
+`setAudioTiming {start_frame}`. Durations are exact — filter with
+`max_seconds` before listening. These are recordings, not a replacement for
+`addSound`: use a recording for texture, a generated hit for the beat.
+
 ## Music first, or picture first
 
 - **Music-led** (reels, kinetic type, social): compose the bed first, read its
@@ -95,7 +114,9 @@ What pros tend to do:
 ## Recipes
 
 Each runs after the look script (`miran-dsh-directions`), which made a
-600-frame composition.
+600-frame composition in the 30 fps notation. On a 60 fps film the composition
+is 1200 frames and every frame in these recipes doubles: `reveal`, `hits`,
+`ending`, `frame` and `duration_frames`.
 
 ### A bed with a drop on the reveal
 

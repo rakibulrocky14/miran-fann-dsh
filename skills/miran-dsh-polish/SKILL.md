@@ -28,7 +28,7 @@ shot that is not needed.
 renderContactSheet {frames:"auto"}     → look
 critiqueLayout                          → collisions, safe area, read-in-motion
 critiqueMotion                          → arcs, eases, lockstep, follow-through
-inspectMotionActivity                   → are there dead stretches?
+inspectMotionActivity                   → alive? dead stretches? (first)
 critiqueEdit {checks:["frames","jump","eye","beat","audio","captions","flashes"]}
 → fix ONE thing → re-render → re-critique
 ```
@@ -36,19 +36,25 @@ critiqueEdit {checks:["frames","jump","eye","beat","audio","captions","flashes"]
 What a finished film usually looks like on these instruments, and why each
 matters:
 
-- **`critiqueMotion` in the high 80s or better.** Below that, the findings
+- **`critiqueMotion` read by its findings, not its score.** The findings
   name moves that stop dead, travel in straight lines or start in lockstep:
-  the things that make motion read as computed.
+  the things that make motion read as computed. The score grades only the
+  moves that exist (a frozen film can score 100) and drops to 0 while any
+  warning stands. Mark only atmosphere `intended`, never a scene group or
+  your own moves, and never delete motion to raise it.
 - **`critiqueLayout` with no collisions, nothing too small and nothing past the
   safe area.** Its `sparse` and `empty-area` notes are judgements, not errors:
   a calm direction leaves space on purpose; an accidental empty frame is a
   bug (`miran-dsh-design`).
-- **`inspectMotionActivity` without long dead runs.** A still frame held for
-  reading is fine for about a second; longer reads as a slide unless it is a
-  deliberate hold on a full-frame idea.
+- **`inspectMotionActivity` first, without long dead runs.** A film carried
+  by music sits at about 5% median or more (energetic launch films measure
+  5-9%). A still frame held for reading is fine for about a second; longer
+  reads as a slide unless it is a deliberate hold on a full frame of legible
+  product. On a long film it returns a `{job}`: poll `jobStatus`.
 - **`critiqueEdit` with no flash frames, black frames or jump cuts,** and the
   loudness within about 1 LU of the target.
-- **A first frame that already shows the hook, and a last frame that holds.**
+- **A first frame that already shows the hook, and a last frame whose words
+  hold while a slow push keeps it alive.**
 
 One fix per iteration. Changing three things makes the next critique
 unreadable, which is how films ship with three new bugs.

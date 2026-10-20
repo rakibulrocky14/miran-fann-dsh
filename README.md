@@ -26,7 +26,7 @@ To add it by hand, use **Plugins** in the dsh web sidebar with the address
 below, or:
 
 ```sh
-dsh plugin --profile web add github:rakibulrocky14/miran-fann-dsh#v0.1.6-beta.1
+dsh plugin --profile web add github:rakibulrocky14/miran-fann-dsh#v0.1.6
 ```
 
 dsh 0.2.1-rc.2 or newer is needed (`npm i -g @deepseek-ai/dsh@next`).
@@ -85,6 +85,7 @@ Skills ship in `skills/<name>/SKILL.md` and load into dsh's skill registry, so
 | `miran-dsh-studio` | The order of work, research, the beat sheet, the handoff map |
 | `miran-dsh-directions` | Choosing a visual direction per brief, never a house look |
 | `miran-dsh-reference` | Studying reference videos and turning them into the film's own timing and motion |
+| `miran-dsh-shots` | What goes on screen: planes, keeping a beat alive |
 | `miran-dsh-design` | Hierarchy, readable sizes, depth, real UI |
 | `miran-dsh-type` | Setting, revealing and reading type |
 | `miran-dsh-motion` | Eases, timing, holds, the motion library |

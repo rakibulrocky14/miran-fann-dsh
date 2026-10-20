@@ -62,11 +62,18 @@ loop: the fade is the seam.
 
 ## The skeleton
 
-A 15 s vertical film at 30 fps: a question hook, the turn, the product on a
-phone screen, proof, and a loop back to the hook. Script 1 is the look script
-from `miran-dsh-directions` with `width: 1080, height: 1920, duration_frames:
-450`. The example product is a cooking app called Pantry; replace every
-string and the screen with your brief's.
+A 15 s vertical film: a question hook, the turn, the product on a phone screen,
+proof, and a loop back to the hook. This is a UI film, and UI and tech films
+run at 60 fps, so build it at 60; the frame numbers below are written in 30 fps
+counts to keep the beat arithmetic readable. At 60, set the look script to
+`fps: 60, width: 1080, height: 1920, duration_frames: 900`, and double every
+frame number you copy — scene starts and ends, `dur`, `stagger`, `start` and
+music hits. Kit defaults are written at 30 fps and read at the composition's
+rate, so a piece left on its defaults lasts the same seconds at 60; a number you
+pass is frames. Script 1 is the look script from
+`miran-dsh-directions`; in the 30 fps notation it uses `duration_frames: 450`.
+The example product is a cooking app called Pantry; replace every string and
+the screen with your brief's.
 
 ```js
 // look: 1080x1920 450 (the look script, vertical)
@@ -109,7 +116,7 @@ const css = `
   .r b { display: block; font-size: 40px; } .r span { color: ${T.muted}; font-size: 30px; }
   .btn { margin-top: auto; text-align: center; padding: 30px; border-radius: 999px; background: ${T.accent}; color: ${T.bg}; font-weight: 800; font-size: 40px; }`;
 kit.scene({start: 96, end: 300, name: "Product"}, ({start, end, group}) => {
-  const r = miran.importHtml({name: "Pantry", width: 900, height: 1360, at: [S.cx, S.cy], html: `<style>${css}</style><div class="wrap">
+  const r = miran.importHtml({name: "Pantry", width: 900, height: 1360, html: `<style>${css}</style><div class="wrap">
     <div class="bar"><span>Pantry</span><span>6 items in your fridge</span></div>
     <h1>4 dinners, nothing to buy</h1>
     <div class="r" id="r1"><div class="ph">1</div><div><b>Spinach and feta omelette</b><span>12 min · uses 5 of 6</span></div></div>
@@ -117,8 +124,10 @@ kit.scene({start: 96, end: 300, name: "Product"}, ({start, end, group}) => {
     <div class="r" id="r3"><div class="ph">3</div><div><b>Onion and egg fried rice</b><span>15 min · uses 4 of 6</span></div></div>
     <div class="r" id="r4"><div class="ph">4</div><div><b>Spinach rice bowl</b><span>18 min · uses 3 of 6</span></div></div>
     <div class="btn" id="cook">Start cooking</div></div>`});
+  // Move the page by its root, not with importHtml's at: in 0.1.6 at offsets the page's base twice.
+  miran.setProperty({layer: r.id, property: "position", value: [S.cx, S.cy]});
   ["r1", "r2", "r3", "r4", "cook"].forEach((p, i) => kit.enter(r.parts[p], {style: "rise", start: start + i * 3}));
-  const tap = kit.cursor({path: [[S.right - w * 0.08, S.cy - h * 0.25], r.boxes.r1.at], click: [1], start: start + 30});
+  const tap = kit.cursor({path: [[S.right - w * 0.08, S.cy - h * 0.25], miran.inspectLayer({layer: r.parts.r1, frame: start + 20}).bounds.center], click: [1], start: start + 30});
   kit.lift(r.parts.r1, {start: tap.arrive[1] + 4, scale: 1.06, dim: [r.parts.r2, r.parts.r3, r.parts.r4]});
   kit.push(group, {from: 1, to: 1.04, start: start, end: end});   // the whole shot pushes, about its centre
 });

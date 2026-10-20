@@ -53,8 +53,9 @@ barely correlate in the corpus; the kind of film does the work.
    countdown.
 2. **Breathe** — long, short, long, short. The explainer rhythm: a wide idea,
    then a detail.
-3. **Hold and drop** — hold a frame for 2-3 s, then two cuts 8 frames apart.
-   The drop is the change; the hold is what makes it feel like one.
+3. **Hold and drop** — hold a frame long enough to read it, then drop with two
+   quick cuts close together. The drop is the change; the hold is what makes
+   it feel like one.
 4. **Lockstep** — every shot the same length, on the beat. Only for reels and
    music-led type; it flattens meaning by design.
 
@@ -82,6 +83,13 @@ Habits that hold across styles, and why:
   Your direction card names the signature join (`T.join`).
 - **Cut on motion, not between motions.** If something is moving at the cut,
   the eye follows it; if everything is still, the cut lands as a blink.
+- **Carry speed through the cut.** A cut resets place, size and subject; the
+  one thing it must not reset is motion. The outgoing shot's direction and
+  speed continue in the incoming one: a subject leaving frame right hands the
+  next shot a subject already traveling right, and a push still gaining speed
+  becomes the next push. When the outgoing side has come to rest, start the
+  incoming entrance before the cut so it is already in flight on frame one.
+  Two shots traveling the same way at the same speed join into one movement.
 - **Keep screen direction.** A subject moving left that cuts to moving right
   reads as a reversal unless the reversal is the point.
 - **Match the cut to the music's structure**, not to every onset. Cut on the
@@ -95,9 +103,9 @@ the sentence, not the beat.
 ## The cut point
 
 `kit.scene({start, end})` is exclusive at `end`; a transition at frame `F`
-belongs to the scene ending at `F` and the one starting at `F`. If a transition
-is 16 frames long, the outgoing scene should have 8 frames of settled picture
-before `F`, or the transition eats the last beat of the scene.
+belongs to the scene ending at `F` and the one starting at `F`. Leave the
+outgoing scene a settled picture for the first half of the transition's length,
+or the transition eats the last beat of the scene.
 
 A transition needs material to move: a whip over an empty frame is a blur of
 nothing. Put the thing that leaves at the edge of frame before the cut.

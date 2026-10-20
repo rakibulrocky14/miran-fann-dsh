@@ -7,9 +7,13 @@ whenToUse: "Any launch film, product teaser, feature reveal or app promo of 15-4
 # The launch film
 
 A launch film has one job: make a person want the thing, then tell them its
-name. Everything else is tempo. Before this skill, write the direction card
-(`miran-dsh-directions`): the skeleton below has no look of its own and takes
-everything from it.
+name. Everything else is tempo. Before this skill: `openViewer` and its link
+to the person, the research sheet (what the product really is and does, and
+its real screens; both in `miran-dsh-studio`), the direction card
+(`miran-dsh-directions`), and `miran-dsh-shots` for what goes on screen. The
+product's own launch film and two or three like it come first, through
+`miran-dsh-reference`: they set the pace of the beats, not the look. The
+skeleton below has no look of its own and takes everything from the card.
 
 ## The five jobs
 
@@ -25,7 +29,9 @@ is a habit of the category, not a law; what matters is that each job is done.
    the contrast between a sparse open and a full drop is the most reliable
    structural device in the category.
 4. **Proof**: it works. Two or three quick, specific shots: the feature
-   doing its thing, a number, a detail you can read.
+   doing its thing, a number, a detail you can read. Each proof shot is a
+   cause and its effect (a click and what it sets off, a number and what it
+   replaces), not a screen that sits there.
 5. **End card**: the name and one line, held still long enough to read
    (about 1.5-2.5 s), in the style your card chose.
 
@@ -42,11 +48,25 @@ fast cuts come in the tension and proof, and the product and end card get the
 long holds. Alternate scale while you do it: wide, detail, wide, detail. Two
 wides in a row read as one long scene.
 
+The 0.1.6 study's 68 launch films cut more slowly: about 2 s a shot for
+hardware, and 3-5 s for the designed SaaS and AI films (Linear, Cursor,
+Cowork). Those films keep the motion inside the shot: a cursor at work, a
+slow camera across a tilted screen, rows landing. A long shot is fine when
+something keeps happening in it. A short shot is fine when it shows
+something new. A shot that has stopped is never fine, at any length.
+
 ## The product, honestly
 
-- **Real UI, real words.** Write the screen as HTML with `importHtml`: the
-  product's own names, dates, numbers and states, styled from `kit.theme()`.
-  Grey bars in a card are not a product, and a viewer feels it at once.
+- **Real UI, real words.** Rebuild the screens the research found (captures
+  of the feature pages, the store and docs screenshots, frames of the demo
+  video) as HTML with `importHtml`. Keep the product's own layout, names,
+  dates, numbers and states, and style it from `kit.theme()`. Grey bars in a
+  card are not a product, and a screen the team would not recognise is not
+  one either.
+- **Show what it does, not what it is called.** The research sheet's key
+  moments are the proof beats. One launch film shows the voice-add, the list
+  re-sorting by aisle and the partner's tick vanishing on the other phone.
+  Another only names "smart lists" over a card, and nobody remembers it.
 - **Dense, like a real app.** A sidebar, a header, six to ten rows or a full
   grid. The push-in chooses the part that matters; the wide shot proves it is
   a real product.
@@ -57,14 +77,53 @@ wides in a row read as one long scene.
 - **One cursor, two or three stops.** A click should visibly cause something:
   a row strikes through, a panel opens, a number changes.
 
+## Every beat is a shot, not a section
+
+The failure to avoid has a shape: a headline on the left, the UI small on the
+right, on a dark field, five times in a row, each arriving and then freezing
+until the cut. A DeepSeek film measured in the 0.1.6 study did exactly that and
+had ten frozen seconds in twenty-four. Each beat below therefore has three
+parts, and so should yours:
+
+- **its own light and depth**: a gradient falling off from one side, a faint
+  atmosphere, a soft light behind the subject;
+- **a subject that fills the frame**: the screen pushed in until its words
+  read, the number at a third of the frame height, the type at most of the
+  width;
+- **something that keeps happening after the entrance**: rows landing, the
+  camera travelling to the part that matters, the number counting, a light
+  passing, the product changing state.
+
+Cut while the motion is still going, and keep one direction for "next".
+
+**One or two beats can be generated shots.** With a video key set
+(`openSettings` shows `openrouter` set), the places a launch film gains most
+from a real camera are the hook (a person or a place before the product, the
+product in real light) and the plate under the reveal. Plan them on the beat
+sheet, price the set once, draft first and make the hero last; the product's
+own screen, the type and the end card stay Miran's (`miran-dsh-shots`,
+"Generated hero shots"). A launch film that is the product's UI and a claim
+stays motion design; no key means one line in the plan saying a generated shot
+could lift it, then carry on.
+
 ## The skeleton
 
 This is one structure: an opening, the tension, the reveal on the drop, two
-proof shots and an end card, 20 s at 30 fps. It is a set of scripts run in
-order, one beat each. Script 1 is the look script from
-`miran-dsh-directions` (with `duration_frames: 600`); every script below reads
-the look from it, including the direction's title entrance (`T.style`), its
-signature join (`T.join`) and its alignment (`T.align`).
+proof shots and an end card, 20 s. UI and tech launch films run at 60 fps, so
+build it at 60; the frame numbers below are written in 30 fps counts to keep the
+beat arithmetic readable. At 60, set the look script to `fps: 60,
+duration_frames: 1200` and double every frame number you copy — scene starts
+and ends, `dur`, `stagger`, `start`, `hold`, `back`, music hits and the drop.
+Kit defaults are written at 30 fps and read at the composition's rate, so a
+piece left on its defaults lasts the same seconds at 60; a number you pass is
+frames. The same doubling applies to the 30 fps notation in every skeleton
+in these skills.
+
+It is a set of scripts run in order, one beat each. Script 1 is the look script
+from `miran-dsh-directions` (in the 30 fps notation, `duration_frames: 600`);
+every script below reads the look from it, including the direction's title
+entrance (`T.style`), its signature join (`T.join`) and its alignment
+(`T.align`).
 
 The example product is a team calendar called Dayline. Replace every string
 with your brief's real words, and every screen with your product's.
@@ -181,8 +240,14 @@ const html = `<style>${css}</style><div class="app">
     <div class="t">16:00</div>${ev("Interview", "Product")}<div></div><div></div>${ev("Demo", "Q4 plan")}${ev("Retro", "45 min")}
   </div></div></div>`;
 kit.scene({start: 150, end: 300, name: "Reveal"}, ({start}) => {
+  // The scene's own light, from the top left, and dust drifting in it: the product arrives into a place.
+  kit.spot({at: [-w * 0.3, h * 0.35], size: w * 1.6, intensity: 0.45});
+  kit.particles("dust", {start: start, count: 12, size: 3});
   const r = miran.importHtml({name: "Dayline", width: 1440, height: 900, html: html});
-  kit.screen3d([r.parts.week, r.parts.kickoff], {start: start, face: {at: start + 50}, push: {to: "kickoff", at: start + 95, fill: 0.55}});
+  // The page's base goes in with its parts, or its background and sidebar stay flat behind the 3D screen.
+  const s = kit.screen3d([r.base, r.parts.week, r.parts.kickoff], {start: start, face: {at: start + 50}, push: {to: "kickoff", at: start + 95, fill: 0.55}});
+  kit.spot({behind: s.surface});
+  kit.sheen(r.parts.kickoff, {start: start + 125, dur: 22});
   kit.title("One link. Everyone's free time.", {at: [0, -h * 0.4], size: Math.round(h * 0.045), weight: 600, style: T.style, start: start + 100});
 });
 kit.transition({at: 150, style: T.join || "push", dir: "left"});
@@ -203,12 +268,15 @@ kit.scene({start: 300, end: 390, name: "Proof: the invite"}, ({start, end}) => {
   kit.title("Kickoff", {at: [cx, h * 0.17], size: Math.round(h * 0.065), weight: 700, font: T.display, style: "rise", start: start + 2});
   kit.title("Wed 14:30 - 15:15", {at: [cx, h * 0.07], size: Math.round(h * 0.038), weight: 500, color: T.muted, style: "rise", start: start + 4});
   kit.flow(["Ana", "Raj", "Lee", "Mo", "Sun", "Kit"], {at: [cx, -h * 0.06], width: w * 0.32, size: Math.round(h * 0.034), start: start + 6, stagger: 2});
-  kit.pill("All 6 accepted", {at: [cx, -h * 0.2], size: Math.round(h * 0.038), fill: T.accent, color: T.bg, start: start + 20});
+  const ok = kit.pill("All 6 accepted", {at: [cx, -h * 0.2], size: Math.round(h * 0.038), fill: T.accent, color: T.bg, start: start + 20});
+  // The answer lands with a reaction: rays outside the pill, a glow that swells and settles.
+  kit.burst({at: [cx, -h * 0.2], start: start + 24, inner: Math.round(h * 0.14), outer: Math.round(h * 0.22), arc: [200, 340], n: 9});
+  kit.glow(ok.id, {start: start + 22, dur: 24, peak: 0.9, rest: 0});
   kit.lockup({align: "left", at: [s.left, 0], start: start, style: "rise",
     kicker: {text: "Sent in", size: Math.round(h * 0.03)}, headline: {text: "one tap", size: Math.round(h * 0.12), font: T.display}});
   kit.push(card.id, {from: 1, to: 1.03, start: start, end: end});
 });
-kit.scene({start: 390, end: 480, name: "Proof: the number"}, ({start, end}) => {
+kit.scene({start: 390, end: 480, name: "Proof: the number"}, ({start, end, group}) => {
   // Before and after in one frame: the old number as ghost type, struck through; the new one set big.
   const ghost = kit.title("11", {at: [-w * 0.2, -h * 0.02], size: Math.round(h * 0.85), weight: 800, font: T.display, color: T.text, style: "none"});
   miran.setProperty({layer: ghost.id, property: "opacity", value: 0.08});
@@ -216,6 +284,8 @@ kit.scene({start: 390, end: 480, name: "Proof: the number"}, ({start, end}) => {
   kit.lockup({align: "left", at: [w * 0.06, 0], start: start, style: "rise", max_width: w * 0.42,
     headline: {text: "1 message", size: Math.round(h * 0.12), font: T.display}, sub: {text: "to book the next one", size: Math.round(h * 0.05)}});
   kit.push(ghost.id, {from: 1, to: 1.05, start: start, end: end});
+  // The hit: the frame punches when the old number is struck out.
+  kit.punch(group, {start: start + 18, to: 1.03, sound: false});
 });
 return "proof built";
 ```
@@ -233,6 +303,8 @@ kit.scene({start: 480, end: 600, name: "End card"}, ({start, end, group}) => {
   const b = kit.lockup({align: "left", at: [s.left, 0], start: start + 4, size: Math.round(h * 0.13),
     kicker: "Out today", headline: {text: "Dayline", font: T.display}, sub: "Find the time, not the thread.", url: "dayline.app"});
   kit.line({from: [s.left, b.box.bottom - h * 0.05], to: [s.left + w * 0.3, b.box.bottom - h * 0.05], width: 4, color: T.accent, start: start + 20});
+  // Light passes once over the name, then the card holds still to be read.
+  kit.sheen(b.headline ? (b.headline.id || b.headline) : b.id, {start: start + 30, dur: 30});
 });
 return "end card built";
 ```
@@ -284,7 +356,11 @@ return {layout: miran.critiqueLayout({}), motion: miran.critiqueMotion({}),
 - No cell is empty or shows a container waiting for its content.
 - The reveal lands on the drop: `kit.music` reports `drop_frame`, and the
   product appears there.
-- `critiqueMotion` in the high 80s or better, `critiqueLayout` clean.
+- `inspectMotionActivity` at about 5% median or more (the energetic launch
+  films measure 5-9%), and no still hold over about a second (the end card's
+  words hold, its frame keeps a slow push); then `critiqueMotion`'s findings
+  fixed (read it by its findings, not its score: it grades only the moves that
+  exist) and `critiqueLayout` clean.
 - `checkExport` on the file: duration, loudness, size.
 
 ## Failures you will hit
@@ -295,7 +371,15 @@ return {layout: miran.critiqueLayout({}), motion: miran.critiqueMotion({}),
 - **Every shot is a centred card.** Alternate scale and layout; the grid comes
   from the direction (`T.align`).
 - **The UI is too small to read.** Push in for the beat that matters.
+- **The 3D screen leaves a flat copy of its page behind.** Pass the page's
+  `r.base` to `kit.screen3d` with its parts.
+- **Beats freeze after their entrances.** `inspectMotionActivity` after each
+  beat; a still hold over about a second needs a performance, not a fade.
 - **The end card says three things.** The name, one line, perhaps a URL.
+- **A generated shot carries the product.** A hero plate gives the film a
+  world; the product's screen is built from the research as HTML and tilted
+  in Miran, never drawn by the video model, and a generated shot that could be
+  any brand's is a plate in the wrong film.
 - **The music starts at full energy.** Then the drop has nothing to arrive
   into: `kit.music({reveal})` builds the sparse open for you.
 

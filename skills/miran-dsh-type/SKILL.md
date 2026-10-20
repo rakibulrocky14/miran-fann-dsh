@@ -93,9 +93,13 @@ The reveal is a sentence about the word. Pick by meaning, not by variety:
 `kit.title(text, {style, ...})` and `kit.words(text, {style, ...})` implement
 these with a designed stagger and spring. Do not add a second entrance on top.
 
-Stagger: 1-2 frames per character (above 3 reads as a typewriter), 4-8 per
-word, 8-14 per line. The whole reveal should finish inside 24-36 frames; if the
-line is long, shorten the stagger rather than the read.
+Stagger is the shape of the reveal, not a setting. Characters at a character's
+gap move as one word; words at a word's gap let each word land; lines at a
+line's gap let the eye finish one before the next. `kit.title` carries a
+designed gap per style and `kit.words` a default 4-frame gap at 30 fps, read
+at the composition's rate; a `stagger` you pass is frames, so at 60 double it.
+If a line is long, tighten the gap rather than the read: the whole label
+should finish before its hold, not at the cut.
 
 ## Kinetic type
 
@@ -151,9 +155,10 @@ direction from `kit.theme()`.
 
 ```js
 const T = kit.theme();
+const F = (n) => Math.round(n * kit.size().fps / 30);
 const {w, h} = kit.size();
-kit.title("Draft fast.", {at: [0, h * 0.07], size: Math.round(h * 0.14), weight: 700, font: T.display, style: T.style, start: 4});
-const second = kit.title("Fix later.", {at: [0, -h * 0.08], size: Math.round(h * 0.14), weight: 700, font: T.display, style: T.style, start: 16});
+kit.title("Draft fast.", {at: [0, h * 0.07], size: Math.round(h * 0.14), weight: 700, font: T.display, style: T.style, start: F(4), stagger: F(2), dur: F(24)});
+const second = kit.title("Fix later.", {at: [0, -h * 0.08], size: Math.round(h * 0.14), weight: 700, font: T.display, style: T.style, start: F(16), stagger: F(2), dur: F(24)});
 const m = miran.measureText({layer: second.id});
 miran.createLayer({name: "Rule", kind: "solid", width: m.width, height: Math.round(h * 0.006), fill: T.accent,
   position: [0, -h * 0.08 - m.height / 2 - h * 0.02]});
@@ -164,14 +169,15 @@ return {w: m.width, h: m.height};
 
 ```js
 const T = kit.theme();
+const F = (n) => Math.round(n * kit.size().fps / 30);
 const {h} = kit.size();
-const beats = [["Plan", 0], ["Build", 20], ["Ship", 40]];
+const beats = [["Plan", 0], ["Build", F(20)], ["Ship", F(40)]];
 for (const [word, start] of beats) {
-  kit.scene({start: start, end: start + 20, name: word}, () => {
-    kit.title(word, {at: [0, 0], size: Math.round(h * 0.3), weight: 800, font: T.display, style: "slam", start: start});
+  kit.scene({start: start, end: start + F(20), name: word}, () => {
+    kit.title(word, {at: [0, 0], size: Math.round(h * 0.3), weight: 800, font: T.display, style: "slam", start: start, stagger: F(2), dur: F(16)});
   });
 }
-kit.sfx("impact", 40);
+kit.sfx("impact", F(40));
 return "beats built";
 ```
 
@@ -179,8 +185,9 @@ return "beats built";
 
 ```js
 const T = kit.theme();
+const F = (n) => Math.round(n * kit.size().fps / 30);
 const {h} = kit.size();
-kit.counter({to: 12480, at: [0, h * 0.03], size: Math.round(h * 0.24), weight: 700, font: T.display, start: 10, dur: 54, ease: "emphasized-decelerate", thousands: true, label: "files reviewed this week"});
+kit.counter({to: 12480, at: [0, h * 0.03], size: Math.round(h * 0.24), weight: 700, font: T.display, start: F(10), dur: F(54), ease: "arrive", thousands: true, label: "files reviewed this week"});
 return "counter built";
 ```
 
@@ -204,8 +211,9 @@ return "counter built";
   a literal newline is a syntax error and the whole script rolls back.
 - `setTextContent` keeps the style; `setTextStyle` keeps the string. Neither
   resets the other.
-- A counter with `style:"duration"` defaults to linear; every other counter
-  should use `emphasized-decelerate` or it reads like a slot machine.
+- A counter with `style:"duration"` defaults to linear, because a clock should
+  tick evenly. A value that lands reads better on `arrive`: it gathers speed
+  and settles, instead of starting at full speed like a slot machine.
 
 ## What the study measured
 

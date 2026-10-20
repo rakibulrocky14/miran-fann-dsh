@@ -55,8 +55,8 @@ to the brand.
 - **Layout:** dense and off-centre, a HUD of small labels around one big
   subject; UI shown at an angle (`kit.screen3d`), code panels (`kit.code`),
   a faint grid backdrop.
-- **Motion:** `punchy`: fast arrivals, hard stops with a small overshoot,
-  glitch-short holds.
+- **Motion:** `punchy`: fast arrivals that gather speed, crisp landings with a
+  small overshoot, a hard stop only on the hit, glitch-short holds.
 - **Joins:** hard cuts on the beat, a `whip` for lists, one `zoom` through a
   detail for the reveal, a `flash` on the drop.
 - **Signature devices:** a `kit.sheen` across the hero panel, `kit.glow` on
@@ -267,6 +267,9 @@ const LOOKS = {   // font pairs are Mac families; on Linux or Windows use the Go
   cinema:    {ground: "dark",  harmony: "analogous",  font: "Avenir Next",           display: "Didot",                 mono: "SF Mono", motion: "calm",    backdrop: "radial", style: "blur", join: "blur",       align: "center", mood: "dark"},
 };
 const L = LOOKS[CARD.direction];
+// UI and tech films run at 60 fps: fps: 60, duration_frames: 1200, and every
+// frame number in every later script doubled. The 30 fps values here are the
+// shared notation the beat skeletons are written in; film-look pieces keep 30.
 const c = miran.createComposition({name: "Main", width: 1920, height: 1080, fps: 30, duration_frames: 600});
 kit.use(c.id);
 kit.define("palette", (hex, o) => {

@@ -31,28 +31,35 @@ same z plane slide together, which is a slide, not a camera.
 
 ## The four archetypes
 
-| move | claims | duration | when |
+| move | claims | what sets its length | when |
 |---|---|---|---|
-| push in | "this matters more than the room" | 1.5-3 s | a reveal, a decision, a number |
-| pull back | "here is the whole thing" | 2-4 s | the end of an act, a product reveal |
-| orbit | "this is an object, not a picture" | 2.5-4 s | hardware, a logo, a 3D screen |
-| truck / crane | "we are beside it / above it" | 1.5-3 s | a space, a list, a workspace |
+| push in | "this matters more than the room" | how much new frame the push reveals | a reveal, a decision, a number |
+| pull back | "here is the whole thing" | how much has to assemble before the eye reads it | the end of an act, a product reveal |
+| orbit | "this is an object, not a picture" | the arc it has to complete without becoming a spin | hardware, a logo, a 3D screen |
+| truck / crane | "we are beside it / above it" | the distance across the space it shows | a space, a list, a workspace |
 
 What pros tend to do, and why:
 
 - **One move per shot.** A push that becomes an orbit is two shots.
-- **Decelerate, never stop dead.** End the move on `ease:"camera"` (an
-  ease-out). `cameraSettle` is not a general "settle": it eases the rig back
-  to its rest pose, which is what you want for a reveal-and-return, not for a
-  push that should hold its new framing.
-- **Camera moves are slower than layer moves.** A layer crosses the frame in
-  20 frames; a camera takes 60-90.
+- **Leave rest, decelerate, never stop dead.** End the move on
+  `ease:"camera"`; a camera that snaps into motion from a dead stop reads as a
+  cut. `cameraSettle` is not a general "settle": it eases the rig back to its
+  rest pose, which is what you want for a reveal-and-return, not for a push
+  that should hold its new framing.
+- **Camera moves are slower than layer moves.** A camera has mass and optical
+  travel; it takes far longer than a layer to cross the same distance. If the
+  push arrives before the eye has read the new framing, it is too fast.
 - **The move must end where the next shot can start.** A camera that leaves
   the subject at the edge of frame traps the edit.
 
-Speed changes the meaning: a push of about 10-15% of the frame a second reads
-as a drift, 30-50% as a deliberate move, and above about 80% as a crash zoom,
-which belongs to comedy or a whip.
+Speed changes the meaning: the same push can drift, commit or crash. A drift
+moves a few percent of the frame a second and reads as breathing; a deliberate
+move crosses enough of the frame for the eye to follow; a crash zoom is a
+comedy or whip gesture. The difference is how much frame the move eats per
+second, not a throttle setting.
+
+Frame counts in this skill are 30 fps notation; on a 60 fps film double every
+`start`, `duration` and `end` so the camera keeps the same seconds.
 
 ## Pull-back reveals
 
@@ -61,12 +68,14 @@ pull back to the whole product. Build it in this order:
 
 1. Build the whole composition at its final pose.
 2. `cameraFrameLayers` at the last frame, so the final framing is exact.
-3. `cameraRevealComposition` (or `cameraDolly` from a close z) over 2-3 s,
-   easing out; the move holds its final framing rather than returning home.
+3. `cameraRevealComposition` (or `cameraDolly` from a close z) over the time
+   the reveal needs, easing out; the move holds its final framing rather than
+   returning home.
 
 `cameraRevealComposition {start, duration, closeup, sweep_deg}` does the whole
-thing; `closeup:0.45` starts about 2.2x closer. A small `sweep_deg` (5-12)
-during the pull-back makes it feel handheld rather than mechanical.
+thing; `closeup:0.45` starts about 2.2x closer. A small `sweep_deg` during the
+pull-back makes it feel handheld rather than mechanical — enough to see,
+not enough to become an orbit.
 
 ## 3D screens and extruded type
 
@@ -92,8 +101,8 @@ frame. Use it when two things are in the same frame and only one matters.
 - `focus_distance` is in world units from the camera; at the default rig the
   z=0 plane sits at about 2250. Measure with `inspectCameraTrajectory` rather
   than guessing.
-- Pull focus over 12-20 frames, never 4: the eye needs to follow the sharp
-  plane.
+- Pull focus over a beat, not a frame: the eye needs time to follow the sharp
+  plane. A rack that lands in a couple of frames is a cut, not a focus pull.
 - A rack focus on a moving subject needs the focus to track
   (`cameraRackFocus` with the subject's distance at the end frame), or it
   drifts off.
@@ -115,8 +124,12 @@ frame. Use it when two things are in the same frame and only one matters.
 - A move that starts and ends at the same speed (no settle).
 - Parallax on a single plane: everything slides together.
 - A tilt that reveals nothing new.
-- A camera move under text that is being read. The words must be pinned or
-  the camera must stop.
+- A camera move that drags text across the frame while it is being read.
+  Pin the words to the screen (a 2D layer over the 3D shot) or let the push
+  be a few percent, slow and steady; do not freeze the whole shot.
+- A camera that never moves. A shot held dead still for seconds, with nothing
+  else changing, reads as a slide: give the camera a destination (wide to the
+  part that matters, or back to reveal the whole) or cut.
 - An orbit around a flat card: it turns edge-on and disappears.
 
 ## Recipes

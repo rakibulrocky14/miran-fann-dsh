@@ -12,6 +12,14 @@ direction still matters (an explainer in the neon direction and one in the
 warm direction teach the same idea to different people), so write the card in
 `miran-dsh-directions` first; the skeleton reads it.
 
+Before the card comes the research sheet (`miran-dsh-studio`). An explainer
+that gets the mechanism wrong is worse than none. Read how the thing really
+works in its own docs, papers or help pages, and note its real terms, steps
+and numbers. Collect its real pictures: the product's screens, a diagram from
+the docs, photos of the place or object. You redraw those pictures; you never
+paste them in. The steps of the mechanism come from that sheet, not from a
+guess.
+
 ## The structure
 
 Most explainers that work move through four parts. The proportions below are
@@ -44,7 +52,8 @@ mechanism; seven is a lecture, so group them.
 - **Real parts with real labels.** A node is a thing the viewer knows (a
   phone, a server, a bank), drawn as an icon in SVG with a label of two or
   three words and, where it helps, a number. An unlabelled circle teaches
-  nothing.
+  nothing. The labels and numbers are the subject's own, from the research
+  sheet.
 - **Arrows between real edges.** `kit.arrow(a, b)` measures the cards and runs
   edge to edge; a hand-placed arrow is always slightly wrong.
 - **A cause that travels.** Something moves along the arrow (a packet, a
@@ -73,13 +82,21 @@ low but not zero change there.
 
 ## The skeleton
 
-A 60 s explainer at 30 fps: how a content network keeps a web page fast. Script
-1 is the look script from `miran-dsh-directions`; the first block below sets
-the length. Every block reads the look from `kit.theme()`. Replace the topic,
-the parts and the numbers with your brief's.
+A 60 s explainer: how a content network keeps a web page fast. UI and tech
+films run at 60 fps, so build it at 60; the frame numbers below are written in
+30 fps counts to keep the beat arithmetic readable. At 60, set the look script
+to `fps: 60`, set this film's length to 3600 frames, and double every frame
+number you copy — scene starts and ends, `dur`, `stagger`, `start`, `hold` and
+music hits. Kit defaults are written at 30 fps and read at the composition's
+rate, so a piece left on its defaults lasts the same seconds at 60; a number you
+pass is frames. Script 1 is the look script from
+`miran-dsh-directions`; the first block below sets the length. Every block reads
+the look from `kit.theme()`. Replace the topic, the parts and the numbers with
+your brief's.
 
 ```js
-// The question, 0-180. The look script made a 600-frame composition; an explainer needs more.
+// The question, 0-180 (30 fps notation; double at 60). The look script made a
+// 600-frame composition; an explainer needs more.
 const T = kit.theme();
 const {w, h} = kit.size();
 miran.setCompositionField({field: "duration_frames", value: 1800});

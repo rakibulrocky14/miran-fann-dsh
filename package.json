@@ -1,6 +1,6 @@
 {
   "name": "miran-fann-dsh",
-  "version": "0.1.6-beta.1",
+  "version": "0.1.6",
   "description": "Miran Fann for DeepSeek Harness: the GPU motion-graphics engine as dsh tools, skills and a Miran settings section.",
   "keywords": [
     "dsh",
